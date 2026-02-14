@@ -9,5 +9,6 @@ func RegisterUserInfoRoutes(r *gin.RouterGroup) {
 	userInfoApiGroup := r.Group("/userInfo")
 	{
 		userInfoApiGroup.GET("/getUserInfoByUserId", user.GetUserInfoByUserId)
+		userInfoApiGroup.POST("/addUserInfo", user.AddUserInfo)
 	}
 }
