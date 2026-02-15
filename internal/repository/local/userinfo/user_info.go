@@ -2,7 +2,7 @@ package userinfo
 
 import (
 	"chat-system/config"
-	"chat-system/internal/model/user"
+	"chat-system/internal/model/entity"
 	"chat-system/internal/repository"
 	"chat-system/pkg/file"
 	"chat-system/pkg/idgenerator"
@@ -23,11 +23,11 @@ func NewUserLocalRepo() repository.UserRepository {
 	return &UserLocalRepo{}
 }
 
-func (r *UserLocalRepo) CreateUser(userInfo *user.UserInfo) error {
+func (r *UserLocalRepo) CreateUser(userInfo *entity.UserInfo) error {
 	if userInfo == nil {
 		return errors.New("userInfo input is nil")
 	}
-	var dbUser []user.UserInfo
+	var dbUser []entity.UserInfo
 
 	err := file.ReadJSON(config.UserRepoJsonFilePath, &dbUser)
 	if err != nil {
@@ -44,11 +44,11 @@ func (r *UserLocalRepo) CreateUser(userInfo *user.UserInfo) error {
 	return nil
 }
 
-func (r *UserLocalRepo) GetUserInfoByUserId(userId string) (*user.UserInfo, error) {
+func (r *UserLocalRepo) GetUserInfoByUserId(userId string) (*entity.UserInfo, error) {
 	if data, err := os.ReadFile(config.UserRepoJsonFilePath); err != nil {
 		return nil, err
 	} else {
-		var dbUser []user.UserInfo
+		var dbUser []entity.UserInfo
 		err = json.Unmarshal(data, &dbUser)
 		for _, userInfo := range dbUser {
 			if userInfo.UserId == userId {

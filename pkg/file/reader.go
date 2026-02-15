@@ -3,6 +3,7 @@ package file
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -36,4 +37,8 @@ func GetAbsolutePath(relativePath string) (string, error) {
 func FileExists(filePath string) bool {
 	_, err := os.Stat(filePath)
 	return !os.IsNotExist(err)
+}
+
+func privateFunction() {
+	log.Println("This is a private function, not accessible outside this package.")
 }

@@ -1,10 +1,10 @@
 package user
 
 import (
-	"chat-system/internal/model/user"
+	"chat-system/internal/model/dto"
 	"chat-system/internal/service"
+	"chat-system/pkg/response"
 	"fmt"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,11 +15,7 @@ func GetUserInfoByUserId(ctx *gin.Context) {
 	userId := ctx.Query("userId")
 	fmt.Printf("userId type %T value %v\n", userId, userId)
 	userInfo := service.GetUserInfoByUserId(userId)
-	ctx.JSON(200, gin.H{
-		"message": "get user info by user id",
-		"data":    userInfo,
-		"code":    200,
-	})
+	response.Success(ctx, userInfo)
 }
 
 // # 2. 添加用户信息 (POST)
@@ -33,27 +29,15 @@ func GetUserInfoByUserId(ctx *gin.Context) {
 //	    "sex": "男"
 //	  }'
 func AddUserInfo(ctx *gin.Context) {
-	var userInfo user.UserInfo
-	if err := ctx.ShouldBindJSON(&userInfo); err != nil {
-		ctx.JSON(400, gin.H{
-			"message": "invalid request body",
-			"data":    0,
-			"code":    400,
-		})
+	var userInfoReq dto.UserInfoReq
+	if err := ctx.ShouldBindJSON(&userInfoReq); err != nil {
+		response.Error(ctx, "invalid request body", response.CodeParamError)
 		return
 	} else {
-		if err := service.AddUserInfo(userInfo); err != nil {
-			ctx.JSON(500, gin.H{
-				"message": "create user failed: " + err.Error(),
-				"data":    nil,
-				"code":    500,
-			})
+		if err := service.AddUserInfo(&userInfoReq); err != nil {
+			response.Error(ctx, "invalid request body", response.CodeServerError)
 			return
 		}
-		ctx.JSON(200, gin.H{
-			"message": "写入成功",
-			"data":    nil,
-			"code":    200,
-		})
+		response.Success(ctx, userInfoReq)
 	}
 }

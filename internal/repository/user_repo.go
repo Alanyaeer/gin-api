@@ -1,8 +1,8 @@
 package repository
 import (
-	"chat-system/internal/model/user"
+	"chat-system/internal/model/entity"
 )
 type UserRepository interface {
-	CreateUser(userInfo *user.UserInfo) error
-	GetUserInfoByUserId(userId string) (*user.UserInfo, error)
+	CreateUser(userInfo *entity.UserInfo) error
+	GetUserInfoByUserId(userId string) (*entity.UserInfo, error)
 }
