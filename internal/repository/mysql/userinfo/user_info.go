@@ -8,15 +8,21 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 var db *gorm.DB
 
 func init() {
 	var err error
-	db, err = gorm.Open(mysql.Open(config.MysqlDsn), &gorm.Config{})
+	db, err = gorm.Open(mysql.Open(config.MysqlDsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -33,12 +39,12 @@ func (r *UserMysqlRepo) CreateUser(userInfo *entity.UserInfo) error {
 		return errors.New("userInfo input is null")
 	}
 	ctx := context.Background()
-	userInfo.UserId = idgenerator.NextID()
+	userInfo.UserId = idgenerator.NativeNextID()
 	fmt.Printf("%v \n", userInfo)
 	db.AutoMigrate(&entity.UserInfo{})
 	return gorm.G[entity.UserInfo](db).Create(ctx, userInfo)
 }
-func (r *UserMysqlRepo) GetUserInfoByUserId(userId string) (*entity.UserInfo, error) {
+func (r *UserMysqlRepo) GetUserInfoByUserId(userId int64) (*entity.UserInfo, error) {
 	ctx := context.Background()
 	userInfo, err := gorm.G[entity.UserInfo](db).Where("user_id = ?", userId).First(ctx)
 	if err != nil {

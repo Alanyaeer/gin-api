@@ -4,5 +4,5 @@ import (
 )
 type UserRepository interface {
 	CreateUser(userInfo *entity.UserInfo) error
-	GetUserInfoByUserId(userId string) (*entity.UserInfo, error)
+	GetUserInfoByUserId(userId int64) (*entity.UserInfo, error)
 }

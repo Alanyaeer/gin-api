@@ -6,6 +6,7 @@ import (
 	"chat-system/pkg/response"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 // # 1. 获取用户信息 (GET)
@@ -14,7 +15,12 @@ import (
 func GetUserInfoByUserId(ctx *gin.Context) {
 	userId := ctx.Query("userId")
 	fmt.Printf("userId type %T value %v\n", userId, userId)
-	userInfo := service.GetUserInfoByUserId(userId)
+	userIdInt, err := strconv.ParseInt(userId, 10, 64)
+	if err != nil {
+		response.Error(ctx, "invalid userId", response.CodeParamError)
+		return
+	}
+	userInfo := service.GetUserInfoByUserId(userIdInt)
 	response.Success(ctx, userInfo)
 }
 

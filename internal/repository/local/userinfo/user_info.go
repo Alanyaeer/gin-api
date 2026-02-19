@@ -33,7 +33,7 @@ func (r *UserLocalRepo) CreateUser(userInfo *entity.UserInfo) error {
 	if err != nil {
 		return err
 	}
-	userInfo.UserId = idgenerator.NextID()
+	userInfo.UserId = idgenerator.NativeNextID()
 	log.Printf("生成的用户ID: %s", userInfo.UserId)
 	dbUser = append(dbUser, *userInfo)
 	if data, err := json.Marshal(dbUser); err != nil {
@@ -44,7 +44,7 @@ func (r *UserLocalRepo) CreateUser(userInfo *entity.UserInfo) error {
 	return nil
 }
 
-func (r *UserLocalRepo) GetUserInfoByUserId(userId string) (*entity.UserInfo, error) {
+func (r *UserLocalRepo) GetUserInfoByUserId(userId int64) (*entity.UserInfo, error) {
 	if data, err := os.ReadFile(config.UserRepoJsonFilePath); err != nil {
 		return nil, err
 	} else {

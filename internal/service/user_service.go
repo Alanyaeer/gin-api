@@ -12,7 +12,7 @@ import (
 
 var userRepo repository.UserRepository = getUserRepo()
 
-func GetUserInfoByUserId(userId string) entity.UserInfo {
+func GetUserInfoByUserId(userId int64) entity.UserInfo {
 	if userInfo, err := getUserRepo().GetUserInfoByUserId(userId); err == nil {
 		return *userInfo
 	} else {
