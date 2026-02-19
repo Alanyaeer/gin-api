@@ -6,7 +6,8 @@ import (
 	"chat-system/internal/model/dto"
 	"chat-system/internal/model/entity"
 	"chat-system/internal/repository"
-	"chat-system/internal/repository/local/userinfo"
+	mysql "chat-system/internal/repository/mysql/userinfo"
+	local "chat-system/internal/repository/local/userinfo"
 )
 
 var userRepo repository.UserRepository = getUserRepo()
@@ -29,10 +30,10 @@ func AddUserInfo(userInfo *dto.UserInfoReq) error {
 func getUserRepo() repository.UserRepository {
 	switch config.DbType {
 	case "locaL":
-		return userinfo.NewUserLocalRepo()
+		return local.NewUserLocalRepo()
 	case "mysql":
-		return nil
+		return mysql.NewUserMysqlRepo()
 	default:
-		return userinfo.NewUserLocalRepo()
+		return local.NewUserLocalRepo()
 	}
-}
+}	
