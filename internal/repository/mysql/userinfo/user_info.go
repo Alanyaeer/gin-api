@@ -8,10 +8,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+	"log/slog"
 )
 
 var db *gorm.DB
@@ -40,7 +40,7 @@ func (r *UserMysqlRepo) CreateUser(userInfo *entity.UserInfo) error {
 	}
 	ctx := context.Background()
 	userInfo.UserId = idgenerator.NativeNextID()
-	fmt.Printf("%v \n", userInfo)
+	slog.Info(fmt.Sprintf("生成的用户ID: %d", userInfo.UserId))
 	db.AutoMigrate(&entity.UserInfo{})
 	return gorm.G[entity.UserInfo](db).Create(ctx, userInfo)
 }

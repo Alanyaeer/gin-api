@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
 )
 
@@ -34,7 +34,7 @@ func (r *UserLocalRepo) CreateUser(userInfo *entity.UserInfo) error {
 		return err
 	}
 	userInfo.UserId = idgenerator.NativeNextID()
-	log.Printf("生成的用户ID: %s", userInfo.UserId)
+	slog.Info(fmt.Sprintf("生成的用户ID: %d", userInfo.UserId))
 	dbUser = append(dbUser, *userInfo)
 	if data, err := json.Marshal(dbUser); err != nil {
 		return fmt.Errorf("write file failure %v", dbUser)
