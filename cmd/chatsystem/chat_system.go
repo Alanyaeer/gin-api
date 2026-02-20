@@ -1,10 +1,14 @@
 package main
 
 import (
-	_ "chat-system/pkg/log"
+	"chat-system/config"
 	"chat-system/internal/router"
+	_ "chat-system/pkg/log"
+	"strconv"
 )
 func main() {
 	e := router.SetupRouter()
-	e.Run(":8888")
+	config.InitConfig(".", "config", "yaml")
+	port := ":" + strconv.Itoa(config.Cfg.App.Port)
+	e.Run(port)
 }

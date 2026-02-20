@@ -33,7 +33,7 @@ func (h *customTextHandler) Handle(_ context.Context, r slog.Record) error {
 	timeStr := r.Time.Format("2006-01-02 15:04:05.000")
 	msg := r.Message
 
-	// 2. 拼接成目标格式：级别- 时间  消息
+	// 2. 拼接成目标格式: [级别] 时间  消息
 	logLine := "[" + levelStr + "] " + timeStr + "  " + msg + "\n"
 
 	// 3. 输出到标准输出

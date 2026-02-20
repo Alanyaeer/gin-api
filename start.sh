@@ -1,2 +1,2 @@
 #!/bin/bash
-cd ./cmd/chatsystem && go run chat_system.go
+go run cmd/chatsystem/chat_system.go

@@ -26,14 +26,14 @@ func GetUserInfoByUserId(ctx *gin.Context) {
 
 // # 2. 添加用户信息 (POST)
 //
-//	curl -X POST "http://localhost:8888/api/v1/userInfo/addUserInfo" \
-//	  -H "Content-Type: application/json" \
-//	  -d '{
-//	    "userId": "U2026214",
-//	    "name": "张三",
-//	    "age": 28,
-//	    "sex": "男"
-//	  }'
+// curl -X POST "http://localhost:8888/api/v1/userInfo/addUserInfo" \
+//   -H "Content-Type: application/json" \
+//   -d '{
+//     "userId": "U2026214",
+//     "name": "张三",
+//     "age": 28,
+//     "sex": "男"
+//   }'
 func AddUserInfo(ctx *gin.Context) {
 	var userInfoReq dto.UserInfoReq
 	if err := ctx.ShouldBindJSON(&userInfoReq); err != nil {

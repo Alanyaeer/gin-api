@@ -5,4 +5,6 @@ const (
 	WriteFileMode = 0644
 	DbType = "mysql"
 	MysqlDsn = "root:123456@tcp(127.0.0.1:13306)/go_gin?charset=utf8mb4&parseTime=True&loc=Local"
+	RedisAddr = "localhost:6379"
+	RedisDB = 0
 )
