@@ -1,5 +1,5 @@
 agent:
-  api_key: ""
+  api_key: "333"
   model: "doubao-seed-1-8-251228"
   base_url: "https://ark.cn-beijing.volces.com/api/v3"
 mysql:
