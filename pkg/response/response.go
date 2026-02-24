@@ -4,21 +4,28 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type StatusCode int
+
+const (
+	ServerCode  StatusCode = 500
+	ClientCode  StatusCode = 400
+	SuccessCode StatusCode = 200
+)
+
 func Success(ctx *gin.Context, data any) {
-	ctx.JSON(200, gin.H{
-		"message": "success", 
-		"data": data,
-		"code": 200,
+	ctx.JSON(int(SuccessCode), gin.H{
+		"message": "success",
+		"data":    data,
+		"code":    200,
 	})
 }
 
-
-func Error(ctx *gin.Context, message string, code int) {
+func Error(ctx *gin.Context, message string, statusCode StatusCode) {
 	ctx.JSON(
-		code, gin.H{
+		int(statusCode), gin.H{
 			"message": message,
-			"data": nil,
-			"code": code,
-		},		
+			"data":    nil,
+			"code":    int(statusCode),
+		},
 	)
 }
