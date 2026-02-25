@@ -2,8 +2,6 @@ package router
 
 import (
 	"chat-system/config"
-	"chat-system/internal/router/agent"
-	"chat-system/internal/middleware"
 	"chat-system/internal/router/user"
 	"chat-system/internal/validator/userinfo" 
 	"github.com/gin-gonic/gin"
