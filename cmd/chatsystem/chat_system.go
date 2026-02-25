@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	e := gin.Default()
+	e := gin.New()
 	config.InitConfig(".", "config", "yaml")
 	port := ":" + strconv.Itoa(config.Cfg.App.Port)
 	router.SetupRouter(e)
