@@ -24,6 +24,7 @@ func init() {
 		},
 	})
 	if err != nil {
+		slog.Info(err.Error())
 		panic(err)
 	}
 }
