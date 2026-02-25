@@ -3,6 +3,7 @@ package router
 import (
 	"chat-system/config"
 	"chat-system/internal/middleware"
+	"chat-system/internal/router/agent"
 	"chat-system/internal/router/user"
 	"chat-system/internal/validator/userinfo"
 
@@ -10,6 +11,11 @@ import (
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
 )
+
+// RouteRegistrar defines a router module that can register its own routes.
+type RouteRegistrar interface {
+	RegisterRoutes(*gin.RouterGroup)
+}
 
 func SetupRouter(r *gin.Engine) {
 	// 解决 gin 框架的一个安全问题，详见 https://github.com/gin-gonic/gin/blob/master/docs/doc.md#dont-trust-all-proxies
@@ -20,5 +26,6 @@ func SetupRouter(r *gin.Engine) {
 		v.RegisterValidation("NameValid", userinfo.NameValid)
 	}
 	apiGroup := r.Group(config.GlobalPrefixV1)
-	user.RegisterUserInfoRoutes(apiGroup)
+	user.NewRouter().RegisterRoutes(apiGroup)
+	agent.NewRouter().RegisterRoutes(apiGroup)
 }

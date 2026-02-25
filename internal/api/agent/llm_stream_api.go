@@ -4,13 +4,14 @@ import (
 	"chat-system/config"
 	"chat-system/internal/model/customize/sse"
 	"chat-system/pkg/protocol/header"
-  	"github.com/cloudwego/eino-ext/components/model/ark"
 	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
 
-	"github.com/cloudwego/eino-ext/components/model/openai"
+	"github.com/cloudwego/eino-ext/components/model/ark"
+	"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model"
+
 	"github.com/cloudwego/eino/adk"
 	"github.com/cloudwego/eino/schema"
 	"github.com/gin-gonic/gin"
@@ -26,16 +27,24 @@ func LLMStreamDemo(ctx *gin.Context) {
 	header.WrapperCtxHeaderForSse(ctx)
 
 	
-	
 	agentCfg := config.Cfg.Agent
-	ark.NewChatModel(ctx.Request.Context(), &ark.ChatModelConfig{})
-	chatModel, err := openai.NewChatModel(ctx.Request.Context(), &openai.ChatModelConfig{
-		APIKey:          agentCfg.APIKey,
-		Model:           agentCfg.Model,
-		BaseURL:         agentCfg.BaseURL,
-		ByAzure:         func() bool { return false }(),
-		ReasoningEffort: openai.ReasoningEffortLevelLow,
+	chatModel, err := ark.NewChatModel(ctx.Request.Context(), &ark.ChatModelConfig{
+		APIKey: agentCfg.APIKey,
+		Model:  agentCfg.Model,
+		Thinking: &model.Thinking{
+			Type: model.ThinkingTypeDisabled,
+		},
 	})
+	if err != nil {
+		slog.Info(err.Error())
+		ctx.String(http.StatusInternalServerError, "NewChatModel failed: %v", err)
+		return
+	}
+	if err != nil {
+		slog.Info(err.Error())
+		ctx.String(http.StatusInternalServerError, "NewChatModel failed: %v", err)
+		return
+	}
 	if err != nil {
 		slog.Info(err.Error())
 		ctx.String(http.StatusInternalServerError, "NewChatModel failed: %v", err)

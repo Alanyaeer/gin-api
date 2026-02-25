@@ -5,10 +5,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterUserInfoRoutes(r *gin.RouterGroup) {
-	userInfoApiGroup := r.Group("/userInfo")
+type UserRouteRegistrar struct{}
+
+func NewRouter() *UserRouteRegistrar {
+	return &UserRouteRegistrar{}
+}
+
+func (u *UserRouteRegistrar) RegisterRoutes(r *gin.RouterGroup) {
+	userInfoAPIGroup := r.Group("/userInfo")
 	{
-		userInfoApiGroup.GET("/getUserInfoByUserId", user.GetUserInfoByUserId)
-		userInfoApiGroup.POST("/addUserInfo", user.AddUserInfo)
+		userInfoAPIGroup.GET("/getUserInfoByUserId", user.GetUserInfoByUserId)
+		userInfoAPIGroup.POST("/addUserInfo", user.AddUserInfo)
 	}
 }

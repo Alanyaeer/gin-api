@@ -5,7 +5,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterAgentRoutes(r *gin.RouterGroup) {
+type AgentRouteRegistrar struct{}
+
+func NewRouter() *AgentRouteRegistrar {
+	return &AgentRouteRegistrar{}
+}
+
+func (a *AgentRouteRegistrar) RegisterRoutes(r *gin.RouterGroup) {
 	agentGroup := r.Group("/agent")
 	{
 		agentGroup.GET("/stream", agent.LLMStreamDemo)
