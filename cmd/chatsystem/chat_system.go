@@ -4,7 +4,7 @@ import (
 	"chat-system/config"
 	"chat-system/internal/router"
 	"strconv"
-
+	_ "chat-system/internal/bootstrap"
 	"github.com/gin-gonic/gin"
 )
 
